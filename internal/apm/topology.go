@@ -11,7 +11,7 @@ import (
 
 	hdr "github.com/HdrHistogram/hdrhistogram-go"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // Service map and error groups, both summed at ingest (traces are evicted,

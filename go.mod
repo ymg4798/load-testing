@@ -1,4 +1,4 @@
-module github.com/ymg4798/lt
+module github.com/ymg4798/load-testing
 
 go 1.27.3
 

@@ -10,9 +10,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ymg4798/lt/internal/run"
-	"github.com/ymg4798/lt/internal/scenario"
-	"github.com/ymg4798/lt/internal/tmpl"
+	"github.com/ymg4798/load-testing/internal/run"
+	"github.com/ymg4798/load-testing/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/tmpl"
 )
 
 // Tailing parameters.

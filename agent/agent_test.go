@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/apm"
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/apm"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // testDriver runs no SQL; a query containing "block" waits until release

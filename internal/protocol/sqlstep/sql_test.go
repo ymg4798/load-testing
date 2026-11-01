@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ymg4798/lt/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/protocol"
 )
 
 func TestCompileQuery(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // Insight is a finding about the target, read from the per-second record.

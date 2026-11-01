@@ -18,7 +18,7 @@ import (
 
 	"google.golang.org/protobuf/encoding/protowire"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // OTLP/HTTP logs (POST /v1/logs), protobuf or JSON, optionally gzipped.

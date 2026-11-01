@@ -432,7 +432,7 @@ func (a *Agent) encode(batch []*Span) []byte {
 	req := map[string]any{"resourceSpans": []any{map[string]any{
 		"resource": map[string]any{"attributes": a.resAttr},
 		"scopeSpans": []any{map[string]any{
-			"scope": map[string]any{"name": "github.com/ymg4798/lt/agent"},
+			"scope": map[string]any{"name": "github.com/ymg4798/load-testing/agent"},
 			"spans": spans,
 		}},
 	}}}

@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 func TestMarkdown(t *testing.T) {

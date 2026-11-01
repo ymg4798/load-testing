@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 var client = &http.Client{Timeout: 10 * time.Second}

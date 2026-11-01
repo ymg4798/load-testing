@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ymg4798/lt/internal/tmpl"
+	"github.com/ymg4798/load-testing/internal/tmpl"
 )
 
 // Result is one measurement a step reports.

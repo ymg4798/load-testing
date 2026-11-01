@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ymg4798/lt/internal/jsonpath"
-	"github.com/ymg4798/lt/internal/tmpl"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/jsonpath"
+	"github.com/ymg4798/load-testing/internal/tmpl"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 // CheckSpec is the YAML form of a response check.

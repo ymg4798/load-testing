@@ -38,9 +38,9 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	_ "github.com/jackc/pgx/v5/stdlib" // registers the "pgx" driver
 
-	"github.com/ymg4798/lt/internal/protocol"
-	"github.com/ymg4798/lt/internal/tmpl"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/tmpl"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 func init() { protocol.Register("sql", compile) }

@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/protocol"
 )
 
 func server(t *testing.T) *httptest.Server {

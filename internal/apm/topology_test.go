@@ -11,7 +11,7 @@ import (
 
 	"google.golang.org/protobuf/encoding/protowire"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // xSpan is a JSON span with arbitrary attributes, status and exception event.

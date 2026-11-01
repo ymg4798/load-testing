@@ -16,8 +16,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/apm"
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/apm"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // waitInCheckout is the "slow code" active stacks must point at.
@@ -144,7 +144,7 @@ func TestParseGoroutineProfile(t *testing.T) {
 		"#\t0x2\tinternal/sync.(*Mutex).lockSlow+0x1\t/go/src/internal/sync/mutex.go:149\n" +
 		"#\t0x2\tsync.(*Mutex).Lock+0x1\t\t\t/go/src/sync/mutex.go:46\n" +
 		"#\t0x3\tmain.chargeCard+0x33\t/src/main.go:12\n" +
-		"#\t0x3\tgithub.com/ymg4798/lt/agent.Middleware.func1+0x1\t/mod/agent/http.go:80\n" +
+		"#\t0x3\tgithub.com/ymg4798/load-testing/agent.Middleware.func1+0x1\t/mod/agent/http.go:80\n" +
 		"#\t0x3\tnet/http.HandlerFunc.ServeHTTP+0x1\t/go/src/net/http/server.go:2300\n" +
 		"#\t0x3\tnet/http.(*conn).serve+0x1\t/go/src/net/http/server.go:2100\n\n" +
 		"1 @ 0x1\n" +
@@ -204,7 +204,7 @@ func TestPanicRecorded(t *testing.T) {
 		t.Errorf("span %+v", s)
 	}
 	st := s.Attrs["exception.stacktrace"]
-	if !strings.HasPrefix(st, "github.com/ymg4798/lt/agent.panicInPricing\n") || strings.Contains(st, "runtime.") || strings.Contains(st, "debug.Stack") {
+	if !strings.HasPrefix(st, "github.com/ymg4798/load-testing/agent.panicInPricing\n") || strings.Contains(st, "runtime.") || strings.Contains(st, "debug.Stack") {
 		t.Errorf("stack:\n%s", st)
 	}
 	gs := col.Errors()
@@ -352,7 +352,7 @@ func TestSeverity(t *testing.T) {
 func TestPanicStackRepanic(t *testing.T) {
 	st := "goroutine 7 [running]:\n" +
 		"runtime/debug.Stack()\n\t/go/src/runtime/debug/stack.go:26 +0x64\n" +
-		"github.com/ymg4798/lt/agent.Middleware.func1.1()\n\t/mod/agent/http.go:90 +0x1\n" +
+		"github.com/ymg4798/load-testing/agent.Middleware.func1.1()\n\t/mod/agent/http.go:90 +0x1\n" +
 		"panic({0x1, 0x2})\n\t/go/src/runtime/panic.go:860 +0x1\n" +
 		"main.handler.func1()\n\t/src/main.go:20 +0x1\n" +
 		"panic({0x1, 0x2})\n\t/go/src/runtime/panic.go:860 +0x1\n" +

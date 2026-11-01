@@ -2,7 +2,7 @@
 
 `lt` is a load-testing and monitoring tool in Go: scenarios in YAML (+ JS), HTTP/WS/gRPC/SQL/Redis/GraphQL/TCP
 steps, distributed agents, HTML reports and a live dashboard, APM (collector + Go agent), server/DB/container/log
-monitoring and an always-on console (`lt watch`). Module `github.com/ymg4798/lt`, MIT, public on GitHub later.
+monitoring and an always-on console (`lt watch`). Module `github.com/ymg4798/load-testing`, MIT, public on GitHub later.
 
 - Design and reasons: @docs/DESIGN.md
 - How the harness (agents, skills, hooks) works: @docs/HARNESS.md

@@ -40,9 +40,9 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/dynamicpb"
 
-	"github.com/ymg4798/lt/internal/protocol"
-	"github.com/ymg4798/lt/internal/tmpl"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/tmpl"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 func init() { protocol.Register("grpc", compile) }

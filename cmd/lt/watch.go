@@ -10,15 +10,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ymg4798/lt/internal/apm"
-	"github.com/ymg4798/lt/internal/history"
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/monitor"
-	"github.com/ymg4798/lt/internal/prom"
-	"github.com/ymg4798/lt/internal/run"
-	"github.com/ymg4798/lt/internal/scenario"
-	"github.com/ymg4798/lt/internal/store"
-	"github.com/ymg4798/lt/internal/web"
+	"github.com/ymg4798/load-testing/internal/apm"
+	"github.com/ymg4798/load-testing/internal/history"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/monitor"
+	"github.com/ymg4798/load-testing/internal/prom"
+	"github.com/ymg4798/load-testing/internal/run"
+	"github.com/ymg4798/load-testing/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/store"
+	"github.com/ymg4798/load-testing/internal/web"
 )
 
 // cmdWatch is the always-on console: server and database metrics, APM

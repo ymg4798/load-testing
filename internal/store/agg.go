@@ -8,7 +8,7 @@ import (
 	"slices"
 	"sort"
 
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // agg is the unit stored on disk and merged on read: the sum of n seconds.

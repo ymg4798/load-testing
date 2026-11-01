@@ -3,7 +3,7 @@ package engine
 import (
 	"math"
 
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 // schedule is a piecewise-linear target over time (rate or user count).

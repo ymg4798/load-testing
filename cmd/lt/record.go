@@ -10,11 +10,11 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/ymg4798/lt/internal/convert"
-	"github.com/ymg4798/lt/internal/engine"
-	"github.com/ymg4798/lt/internal/record"
-	"github.com/ymg4798/lt/internal/scenario"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/convert"
+	"github.com/ymg4798/load-testing/internal/engine"
+	"github.com/ymg4798/load-testing/internal/record"
+	"github.com/ymg4798/load-testing/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 const recordUsage = `Usage: lt record [flags]

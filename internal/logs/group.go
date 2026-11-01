@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 const (

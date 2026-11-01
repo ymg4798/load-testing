@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // Dashboard serves the live page and streams one event per second over

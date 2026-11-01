@@ -13,20 +13,20 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/protocol"
-	"github.com/ymg4798/lt/internal/scenario"
-	"github.com/ymg4798/lt/internal/script"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/script"
 
 	// Step kinds available to scenario files.
-	_ "github.com/ymg4798/lt/internal/protocol/builtin"
-	_ "github.com/ymg4798/lt/internal/protocol/graphqlstep"
-	_ "github.com/ymg4798/lt/internal/protocol/grpcstep"
-	_ "github.com/ymg4798/lt/internal/protocol/httpstep"
-	_ "github.com/ymg4798/lt/internal/protocol/redisstep"
-	_ "github.com/ymg4798/lt/internal/protocol/sqlstep"
-	_ "github.com/ymg4798/lt/internal/protocol/tcpstep"
-	_ "github.com/ymg4798/lt/internal/protocol/wsstep"
+	_ "github.com/ymg4798/load-testing/internal/protocol/builtin"
+	_ "github.com/ymg4798/load-testing/internal/protocol/graphqlstep"
+	_ "github.com/ymg4798/load-testing/internal/protocol/grpcstep"
+	_ "github.com/ymg4798/load-testing/internal/protocol/httpstep"
+	_ "github.com/ymg4798/load-testing/internal/protocol/redisstep"
+	_ "github.com/ymg4798/load-testing/internal/protocol/sqlstep"
+	_ "github.com/ymg4798/load-testing/internal/protocol/tcpstep"
+	_ "github.com/ymg4798/load-testing/internal/protocol/wsstep"
 )
 
 // Engine runs one scenario file once.

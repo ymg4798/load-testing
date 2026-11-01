@@ -24,7 +24,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // Options tunes a Store. The zero value is usable.

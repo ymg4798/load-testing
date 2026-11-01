@@ -13,9 +13,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/run"
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/run"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 type val struct {

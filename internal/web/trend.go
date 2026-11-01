@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"io"
 
-	"github.com/ymg4798/lt/internal/history"
+	"github.com/ymg4798/load-testing/internal/history"
 )
 
 var (

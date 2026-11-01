@@ -6,9 +6,9 @@ import (
 	"os"
 	"text/tabwriter"
 
-	"github.com/ymg4798/lt/internal/history"
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/web"
+	"github.com/ymg4798/load-testing/internal/history"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/web"
 )
 
 func cmdHistory(args []string) int {

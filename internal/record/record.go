@@ -31,7 +31,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ymg4798/lt/internal/convert"
+	"github.com/ymg4798/load-testing/internal/convert"
 )
 
 // maxBody caps how much of a request body is recorded and forwarded in one

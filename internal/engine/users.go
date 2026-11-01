@@ -6,7 +6,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 // runUsers is the closed-model executor (constant-users, ramping-users):

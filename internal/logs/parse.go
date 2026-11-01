@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // Limits on what one record keeps.

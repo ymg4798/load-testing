@@ -207,7 +207,7 @@ func (a *Agent) flushLogs(ctx context.Context) {
 		body, _ := json.Marshal(map[string]any{"resourceLogs": []any{map[string]any{
 			"resource": map[string]any{"attributes": a.resAttr},
 			"scopeLogs": []any{map[string]any{
-				"scope":      map[string]any{"name": "github.com/ymg4798/lt/agent"},
+				"scope":      map[string]any{"name": "github.com/ymg4798/load-testing/agent"},
 				"logRecords": batch,
 			}},
 		}}})

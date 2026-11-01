@@ -14,9 +14,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ymg4798/lt/internal/engine"
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/engine"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 // FormatVersion is bumped when the result file layout changes.

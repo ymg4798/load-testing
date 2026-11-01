@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/protocol"
 )
 
 // fakeRedis speaks enough RESP for the tests: AUTH, SELECT, SET, GET, INCR,

@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // benchSeries is the number of server series in the synthetic week, about

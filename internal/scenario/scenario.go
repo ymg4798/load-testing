@@ -11,8 +11,8 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/ymg4798/lt/internal/protocol"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 // File is a whole scenario file.

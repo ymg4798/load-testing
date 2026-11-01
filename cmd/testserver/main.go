@@ -60,7 +60,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/ymg4798/lt/agent"
+	"github.com/ymg4798/load-testing/agent"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"

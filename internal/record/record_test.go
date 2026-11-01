@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/convert"
+	"github.com/ymg4798/load-testing/internal/convert"
 )
 
 func app(t *testing.T, tls bool) *httptest.Server {

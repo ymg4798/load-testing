@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 // Alerter evaluates alert rules every second and reports when one starts

@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ymg4798/lt/internal/engine"
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/engine"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 // load checks that generated YAML loads and compiles like a hand-written file.

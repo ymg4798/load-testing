@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/scenario"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 func stage(d time.Duration, target float64) scenario.Stage {

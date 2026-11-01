@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 // fakeDocker serves the Engine API endpoints the monitor uses. Each stats

@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/protocol"
 )
 
 // lineServer answers each line "PING n" with "PONG n\r\n" and "QUIT" by closing.

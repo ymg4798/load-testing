@@ -20,7 +20,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // DefaultDir is used when neither a flag nor $LT_HISTORY says otherwise.

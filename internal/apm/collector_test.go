@@ -16,8 +16,8 @@ import (
 
 	"google.golang.org/protobuf/encoding/protowire"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // ---- protobuf builders ----

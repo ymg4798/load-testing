@@ -28,7 +28,7 @@ HTTP · WebSocket · gRPC를 지원하고, 여러 대로 나눠 돌릴 수 있�
 ```bash
 make build            # bin/lt, bin/testserver
 # 또는
-go install github.com/ymg4798/lt/cmd/lt@latest
+go install github.com/ymg4798/load-testing/cmd/lt@latest
 ```
 
 ## 5분 사용법
@@ -295,7 +295,7 @@ alerts:
 
 | 서버 쪽 | 방법 |
 |---|---|
-| Go | lt 에이전트 (`github.com/ymg4798/lt/agent`, 표준 라이브러리만 사용) |
+| Go | lt 에이전트 (`github.com/ymg4798/load-testing/agent`, 표준 라이브러리만 사용) |
 | Java, Python, Node.js, .NET 등 | OpenTelemetry SDK/에이전트를 그대로 쓰고 `OTEL_EXPORTER_OTLP_ENDPOINT=http://<lt 장비>:4318` (OTLP/HTTP, protobuf·JSON 모두) |
 
 ```go

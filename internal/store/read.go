@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // Point is one returned bucket of history.

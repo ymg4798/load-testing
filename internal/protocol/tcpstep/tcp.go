@@ -32,9 +32,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ymg4798/lt/internal/protocol"
-	"github.com/ymg4798/lt/internal/tmpl"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/tmpl"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 func init() { protocol.Register("tcp", compile) }

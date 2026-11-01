@@ -13,7 +13,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 func target(t *testing.T) (*httptest.Server, *atomic.Int64) {

@@ -29,7 +29,7 @@ import (
 
 	"github.com/dop251/goja"
 
-	"github.com/ymg4798/lt/internal/protocol"
+	"github.com/ymg4798/load-testing/internal/protocol"
 )
 
 func init() { protocol.Register("script", compileStep) }

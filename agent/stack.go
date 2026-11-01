@@ -21,7 +21,7 @@ const (
 	maxStacksPerRp = 20      // stacks per active report
 )
 
-const agentPkg = "github.com/ymg4798/lt/agent."
+const agentPkg = "github.com/ymg4798/load-testing/agent."
 
 // captureStacks returns the current stack of each goroutine labelled with
 // one of the wanted transaction labels. buf is reused between calls.

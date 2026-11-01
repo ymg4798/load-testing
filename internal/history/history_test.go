@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 func result(name string, at time.Time, p95 int64) *run.Result {

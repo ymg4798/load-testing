@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ymg4798/lt/internal/convert"
-	"github.com/ymg4798/lt/internal/engine"
-	"github.com/ymg4798/lt/internal/scenario"
-	"github.com/ymg4798/lt/internal/yamlx"
+	"github.com/ymg4798/load-testing/internal/convert"
+	"github.com/ymg4798/load-testing/internal/engine"
+	"github.com/ymg4798/load-testing/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/yamlx"
 )
 
 const convertUsage = `Usage: lt convert [flags] <input|->

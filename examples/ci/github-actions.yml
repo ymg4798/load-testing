@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-go@v5
         with: { go-version: stable }
-      - run: go install github.com/ymg4798/lt/cmd/lt@latest
+      - run: go install github.com/ymg4798/load-testing/cmd/lt@latest
 
       # Keep run history between workflow runs, so --baseline last works.
       - uses: actions/cache@v4

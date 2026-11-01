@@ -5,7 +5,7 @@ import (
 	"math"
 	"sync"
 
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // Stop says why a test ended before its plan.

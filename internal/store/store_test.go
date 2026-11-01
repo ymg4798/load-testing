@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/metrics"
 )
 
 // base is a fixed, minute- and hour-aligned time well inside retention

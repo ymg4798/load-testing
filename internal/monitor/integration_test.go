@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ymg4798/lt/internal/run"
+	"github.com/ymg4798/load-testing/internal/run"
 )
 
 // Integration tests against real databases run only when given a DSN, e.g.

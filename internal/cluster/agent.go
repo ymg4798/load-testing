@@ -27,9 +27,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ymg4798/lt/internal/engine"
-	"github.com/ymg4798/lt/internal/metrics"
-	"github.com/ymg4798/lt/internal/scenario"
+	"github.com/ymg4798/load-testing/internal/engine"
+	"github.com/ymg4798/load-testing/internal/metrics"
+	"github.com/ymg4798/load-testing/internal/scenario"
 )
 
 // RunRequest is what the controller sends to arm an agent.
