@@ -1,0 +1,39 @@
+# End-to-end smoke test used by the /e2e skill. baseUrl is set by the script.
+name: e2e-smoke
+
+vars:
+  baseUrl: http://localhost:8080
+
+options:
+  tracing: true
+
+monitor:
+  - url: "{{ baseUrl }}/metrics"
+
+scenarios:
+  shop:
+    stages:
+      - { duration: 4s, target: 80 }
+      - { duration: 11s, target: 80 }
+    flow:
+      - http: { name: order, url: "{{ baseUrl }}/order/{{ randInt(1, 500) }}" }
+      - http: { name: flaky, url: "{{ baseUrl }}/flaky?rate=0.03" }
+  checkout:
+    rate: 2
+    duration: 15s
+    flow:
+      - http: { name: pay, url: "{{ baseUrl }}/lock?ms=300" }
+      - http: { name: discount, url: "{{ baseUrl }}/panic?rate=0.3", check: { status: [200, 500] } }
+  reports:
+    rate: 1
+    duration: 15s
+    flow:
+      - http: { name: report, url: "{{ baseUrl }}/report" }
+
+thresholds:
+  "latency{step:order}": ["p50 < 100ms"]
+
+alerts:
+  - name: flaky errors
+    when: "latency{step:flaky} p50 > 0ms"   # always true: proves alerts fire
+    window: 2s

@@ -1,0 +1,17 @@
+{
+  "machine": "arm64 Apple M1 Pro",
+  "rates": {
+    "10000": {
+      "rps": 10000.0,
+      "cpu": 30.4,
+      "lagP99us": 30,
+      "dropped": 0
+    },
+    "30000": {
+      "rps": 29999.9,
+      "cpu": 45.0,
+      "lagP99us": 113,
+      "dropped": 0
+    }
+  }
+}

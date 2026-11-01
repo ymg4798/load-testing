@@ -528,3 +528,4 @@ make dist     # macOS/Linux/Windows 바이너리
 ```
 
 구조와 설계 이유는 [docs/DESIGN.md](docs/DESIGN.md)에 있습니다.
+Claude Code로 개발할 때 쓰는 에이전트·스킬·훅 구성은 [docs/HARNESS.md](docs/HARNESS.md)에 있습니다 (`/feature <요청>`으로 시작).
