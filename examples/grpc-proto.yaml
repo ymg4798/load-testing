@@ -1,0 +1,14 @@
+# gRPC with types from a .proto file (no reflection needed on the server).
+name: grpc-proto
+
+scenarios:
+  health:
+    rate: 200
+    duration: 5s
+    flow:
+      - grpc:
+          target: localhost:50051
+          method: grpc.health.v1.Health/Check
+          proto: proto/health.proto
+          message: {}
+          check: { json: { "$.status": SERVING } }

@@ -1,0 +1,96 @@
+# OpenAPI description of the bundled test server (bin/testserver).
+#   lt convert examples/convert/openapi.yaml -o api.yaml
+#   lt run api.yaml -e token=tok-alice
+openapi: 3.0.3
+info:
+  title: lt test server
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+  schemas:
+    Login:
+      type: object
+      required: [id, pw]
+      properties:
+        id: { type: string, example: alice }
+        pw: { type: string, format: password }
+    Item:
+      type: object
+      properties:
+        id: { type: integer, readOnly: true }
+        name: { type: string }
+        price: { type: integer, minimum: 0 }
+paths:
+  /fast:
+    get:
+      operationId: fast
+      summary: Answers "ok" right away
+      responses:
+        "200": { description: ok }
+  /jitter:
+    get:
+      operationId: jitter
+      summary: Answers after a random delay
+      parameters:
+        - { name: min, in: query, required: true, schema: { type: integer, example: 2 } }
+        - { name: max, in: query, required: true, schema: { type: integer, example: 20 } }
+      responses:
+        "200": { description: ok }
+  /login:
+    post:
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Login" }
+      responses:
+        "200":
+          description: token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string }
+        "400": { description: id missing }
+  /items:
+    get:
+      operationId: listItems
+      security: [{ bearer: [] }]
+      responses:
+        "200":
+          description: items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items: { type: array, items: { $ref: "#/components/schemas/Item" } }
+        "401": { description: no token }
+  /items/{id}:
+    get:
+      operationId: getItem
+      security: [{ bearer: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, minimum: 1, maximum: 10 }, example: 3 }
+      responses:
+        "200":
+          description: one item
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Item" }
+        "404": { description: not found }
+  /status:
+    get:
+      operationId: status
+      deprecated: true
+      parameters:
+        - { name: code, in: query, schema: { type: integer } }
+      responses:
+        default: { description: any }

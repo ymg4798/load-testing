@@ -1,0 +1,47 @@
+# Load test with APM: the test server reports its own transactions (SQL,
+# outgoing calls) to lt, so the report shows what happened inside it.
+#   bin/testserver -apm http://localhost:4318 &
+# The server also ships its logs (with trace IDs) to the same listener.
+#   bin/lt run examples/apm.yaml --dashboard :5665 --html apm.html
+name: shop-apm
+
+vars:
+  baseUrl: http://localhost:8080
+
+options:
+  tracing: true
+
+apm:
+  listen: ":4318"
+
+monitor:
+  - url: "{{ baseUrl }}/metrics"
+
+# Logs written to a file can be followed too (instead of OTLP):
+# logs:
+#   - file: /tmp/testserver.log
+
+scenarios:
+  shop:
+    stages:
+      - { duration: 10s, target: 150 }
+      - { duration: 40s, target: 150 }
+    flow:
+      - http: { name: order, url: "{{ baseUrl }}/order/{{ randInt(1, 500) }}" }
+  checkout:
+    rate: 3
+    duration: 50s
+    flow:
+      - http: { name: pay, url: "{{ baseUrl }}/lock?ms=300" }
+      - http: { name: discount, url: "{{ baseUrl }}/panic?rate=0.2", check: { status: [200, 500] } }
+  reports:
+    rate: 2
+    duration: 50s
+    flow:
+      - http: { name: report, url: "{{ baseUrl }}/report" }
+
+alerts:
+  - name: order slow
+    when: "latency{step:order} p99 > 300ms"
+    window: 5s
+    severity: critical

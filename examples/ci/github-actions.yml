@@ -1,0 +1,46 @@
+# Copy to .github/workflows/loadtest.yml in your project.
+# Standard GitHub-hosted runners are free for public repositories.
+#
+# The run's summary (table, thresholds, findings, comparison with the last
+# stored run) appears on the workflow page via $GITHUB_STEP_SUMMARY.
+name: load test
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  loadtest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Start the service under test here, e.g.:
+      # - run: docker compose up -d && ./scripts/wait-for-ready.sh
+
+      - uses: actions/setup-go@v5
+        with: { go-version: stable }
+      - run: go install github.com/ymg4798/lt/cmd/lt@latest
+
+      # Keep run history between workflow runs, so --baseline last works.
+      - uses: actions/cache@v4
+        with:
+          path: .lt/runs
+          key: lt-runs-${{ github.run_id }}
+          restore-keys: lt-runs-
+
+      - name: run
+        run: |
+          base=""
+          [ -d .lt/runs ] && base="--baseline last"
+          lt run loadtest.yaml --save $base --label "${GITHUB_SHA::7}" -o result.json --html report.html
+        # env:
+        #   LT_NOTIFY: ${{ secrets.SLACK_WEBHOOK_URL }}   # optional chat message
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loadtest-report
+          path: |
+            result.json
+            report.html

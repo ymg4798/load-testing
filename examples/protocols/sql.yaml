@@ -1,0 +1,78 @@
+# SQL: load a database directly, without an application in front.
+# Every {{ }} in a query is sent as a bind parameter ($1 / ?), never pasted
+# into the SQL text.
+#
+#   docker compose -f deploy/targets/docker-compose.yml up -d postgres mysql
+#   lt run examples/protocols/sql.yaml
+#   lt run examples/protocols/sql.yaml -e pgUrl=postgres://... -e mysqlDsn=...
+name: sql
+
+vars:
+  pgUrl: postgres://lt:lt@localhost:15432/lt?sslmode=disable
+  mysqlDsn: lt:lt@tcp(localhost:13306)/lt
+
+scenarios:
+  # Create the tables once, before the load starts.
+  setup:
+    executor: iterations
+    iterations: 1
+    users: 1
+    flow:
+      - sql:
+          driver: postgres
+          dsn: "{{ pgUrl }}"
+          exec: true
+          query: CREATE TABLE IF NOT EXISTS lt_orders (id SERIAL PRIMARY KEY, vu INT, item TEXT, created TIMESTAMPTZ DEFAULT now())
+      - sql:
+          driver: mysql
+          dsn: "{{ mysqlDsn }}"
+          exec: true
+          query: CREATE TABLE IF NOT EXISTS lt_orders (id INT AUTO_INCREMENT PRIMARY KEY, vu INT, item VARCHAR(50))
+
+  postgres:
+    startAfter: 2s
+    rate: 50
+    duration: 10s
+    flow:
+      - sql:
+          name: insert order
+          driver: postgres
+          dsn: "{{ pgUrl }}"
+          exec: true
+          query: INSERT INTO lt_orders (vu, item) VALUES ({{ vu }}, 'item-{{ randInt(1, 100) }}')
+          check: { affected: 1 }
+      - sql:
+          name: recent orders
+          driver: postgres
+          dsn: "{{ pgUrl }}"
+          query: SELECT id, item FROM lt_orders WHERE vu = {{ vu }} ORDER BY id DESC LIMIT 5
+          check: { rows: ">= 1", maxLatency: 200ms }
+          extract: { orderId: row.0.id }
+      - sql:
+          driver: postgres
+          dsn: "{{ pgUrl }}"
+          query: SELECT item FROM lt_orders WHERE id = {{ orderId }}
+          check: { rows: 1, bodyContains: item- }
+
+  mysql:
+    startAfter: 2s
+    rate: 50
+    duration: 10s
+    flow:
+      - sql:
+          name: insert order
+          driver: mysql
+          dsn: "{{ mysqlDsn }}"
+          exec: true
+          query: INSERT INTO lt_orders (vu, item) VALUES ({{ vu }}, 'item-{{ randInt(1, 100) }}')
+          check: { affected: 1 }
+      - sql:
+          name: recent orders
+          driver: mysql
+          dsn: "{{ mysqlDsn }}"
+          query: SELECT id, item FROM lt_orders WHERE vu = {{ vu }} AND item LIKE 'item-%' ORDER BY id DESC LIMIT 5
+          check: { rows: ">= 1", bodyContains: "\"item\":\"item-" }
+
+thresholds:
+  "latency{step:recent orders}": ["p95 < 100ms"]
+  errors: ["rate < 1%"]

@@ -1,0 +1,23 @@
+# Always-on console: the server's metrics, its own traces and alerts.
+#   bin/testserver -apm http://localhost:4318 &
+#   bin/lt watch examples/watch.yaml            # open http://localhost:5665
+name: shop
+
+apm:
+  listen: ":4318"
+
+monitor:
+  - url: http://localhost:8080/metrics
+    name: api
+  # - postgres: "postgres://lt:lt@localhost:15432/lt?sslmode=disable"
+  # - url: http://localhost:19100/metrics
+  #   preset: node
+
+alerts:
+  - name: slow server
+    when: "server{apm mean} > 50"        # ms, averaged over the window
+    window: 10s
+    severity: critical
+  - name: server CPU
+    when: "server{api cpu} > 80"
+    for: 30s

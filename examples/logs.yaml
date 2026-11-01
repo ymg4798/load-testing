@@ -1,0 +1,32 @@
+# Always-on console with logs and containers: the test server's log file,
+# OTLP logs on the apm port (/v1/logs) and every running Docker container.
+#   bin/testserver -apm http://localhost:4318 2> /tmp/testserver.log &
+#   bin/lt watch examples/logs.yaml            # open http://localhost:5665
+#   bin/lt watch -e 'logFile=/var/log/shop/*.log' examples/logs.yaml
+name: shop-logs
+
+vars:
+  logFile: /tmp/testserver.log
+
+apm:
+  listen: ":4318"          # also receives OTLP logs at /v1/logs
+
+logs:
+  - file: "{{ logFile }}"  # followed like tail -F; globs allowed
+    name: testserver
+    format: auto           # json, logfmt and plain text (stack traces joined)
+
+monitor:
+  - url: http://localhost:8080/metrics
+    name: api
+  - docker: local          # or unix:///var/run/docker.sock, tcp://host:2375
+    # containers: ["web-*", "db"]   # name globs; default all running (max 50)
+
+alerts:
+  - name: error logs
+    when: "server{log errors} > 5"   # error and fatal lines per second
+    window: 10s
+    severity: critical
+  - name: server CPU
+    when: "server{api cpu} > 80"
+    for: 30s

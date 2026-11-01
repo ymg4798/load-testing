@@ -1,0 +1,43 @@
+# Load the test server while watching databases next to it: health every
+# second (connections, tps/qps, cache hit, lock waits, longest query ...)
+# and, at the end, the statements that took the most time (Top SQL).
+#
+#   docker compose -f deploy/targets/docker-compose.yml up -d
+#   bin/testserver &
+#   bin/lt run examples/database.yaml -o r.json --html r.html
+#
+# The test server does not use these databases; send your own traffic to
+# them (your app, psql, redis-benchmark ...) to see the numbers move.
+name: database
+
+vars:
+  baseUrl: http://localhost:8080
+  pgUrl: postgres://lt:lt@localhost:15432/lt?sslmode=disable
+  mysqlDsn: lt:lt@tcp(localhost:13306)/lt
+  redisUrl: redis://:lt@localhost:16379/0
+
+monitor:
+  # Direct connections: no exporter needed. Series are named "pg …",
+  # "mysql …", "redis …"; Top SQL comes from pg_stat_statements,
+  # performance_schema digests and INFO commandstats.
+  - postgres: "{{ pgUrl }}"
+  - mysql: "{{ mysqlDsn }}"
+  - redis: "{{ redisUrl }}"
+  # Or read an exporter you already run, with friendly names via a preset
+  # (node, mysql, postgres, redis). metrics: adds raw series on top.
+  - name: host
+    url: http://localhost:19100/metrics
+    preset: node
+  - name: app
+    url: "{{ baseUrl }}/metrics"
+    metrics: [process_cpu_seconds_total, go_goroutines]
+
+scenarios:
+  browse:
+    rate: 100
+    duration: 20s
+    flow:
+      - http: "{{ baseUrl }}/fast"
+
+thresholds:
+  errors: ["rate < 1%"]

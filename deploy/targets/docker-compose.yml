@@ -1,0 +1,95 @@
+# Databases and exporters for trying `lt` server/database monitoring
+# (examples/database.yaml). Dev only: fixed passwords, no volumes.
+#
+#   docker compose -f deploy/targets/docker-compose.yml up -d
+#
+#   service            host port   use in monitor:
+#   postgres 16        15432       postgres: postgres://lt:lt@localhost:15432/lt?sslmode=disable
+#                                  (pg_stat_statements preloaded and created → Top SQL)
+#   mysql 8.4          13306       mysql: lt:lt@tcp(localhost:13306)/lt   (root password: lt)
+#                                  (performance_schema on → Top SQL)
+#   redis 7            16379       redis: redis://:lt@localhost:16379/0
+#   node_exporter      19100       url: http://localhost:19100/metrics   preset: node
+#   postgres_exporter  19187       url: http://localhost:19187/metrics   preset: postgres
+#   mysqld_exporter    19104       url: http://localhost:19104/metrics   preset: mysql
+#   redis_exporter     19121       url: http://localhost:19121/metrics   preset: redis
+#
+# Ports avoid the usual 5432/3306/6379 and deploy/docker-compose.yml (9090, 3000).
+# node_exporter here sees the Docker VM, not your laptop; on a real Linux
+# server run it on the host (or with --path.rootfs=/host and / mounted).
+name: lt-targets
+
+services:
+  postgres:
+    image: postgres:16.10
+    environment:
+      POSTGRES_USER: lt
+      POSTGRES_PASSWORD: lt
+      POSTGRES_DB: lt
+    command:
+      - -c
+      - shared_preload_libraries=pg_stat_statements
+      - -c
+      - pg_stat_statements.track=all
+    volumes:
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/10-pg_stat_statements.sql:ro
+    ports: ["15432:5432"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "lt", "-d", "lt"]
+      interval: 2s
+      retries: 30
+
+  mysql:
+    image: mysql:8.4.6
+    environment:
+      MYSQL_ROOT_PASSWORD: lt
+      MYSQL_DATABASE: lt
+      MYSQL_USER: lt
+      MYSQL_PASSWORD: lt
+    command:
+      - --performance-schema=ON
+      - --slow-query-log=ON
+      - --long-query-time=0.5
+    volumes:
+      - ./mysql-init.sql:/docker-entrypoint-initdb.d/10-monitor.sql:ro
+    ports: ["13306:3306"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-plt"]
+      interval: 2s
+      retries: 60
+
+  redis:
+    image: redis:7.4.5
+    command: ["redis-server", "--requirepass", "lt"]
+    ports: ["16379:6379"]
+
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    ports: ["19100:9100"]
+
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter:v0.17.1
+    environment:
+      DATA_SOURCE_NAME: postgresql://lt:lt@postgres:5432/lt?sslmode=disable
+    ports: ["19187:9187"]
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  mysqld-exporter:
+    image: prom/mysqld-exporter:v0.17.2
+    command:
+      - --mysqld.address=mysql:3306
+      - --mysqld.username=root
+    environment:
+      MYSQLD_EXPORTER_PASSWORD: lt
+    ports: ["19104:9104"]
+    depends_on:
+      mysql: { condition: service_healthy }
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.75.0
+    environment:
+      REDIS_ADDR: redis://redis:6379
+      REDIS_PASSWORD: lt
+    ports: ["19121:9121"]
+    depends_on: [redis]

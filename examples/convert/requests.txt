@@ -1,0 +1,10 @@
+# curl commands for the bundled test server (bin/testserver).
+#   lt convert examples/convert/requests.txt
+curl 'http://localhost:8080/fast' -H 'accept: */*' --compressed
+curl -s 'http://localhost:8080/jitter?min=2&max=20'
+curl 'http://localhost:8080/login' \
+  -H 'content-type: application/json' \
+  -H 'user-agent: Mozilla/5.0' \
+  --data-raw $'{"id":"alice","pw":"secret"}'
+curl -H "Authorization: Bearer tok-alice" http://localhost:8080/items
+curl -H "Authorization: Bearer tok-alice" http://localhost:8080/items/3

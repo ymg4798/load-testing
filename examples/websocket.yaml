@@ -1,0 +1,24 @@
+# WebSocket: connect, join a room, exchange messages.
+name: websocket
+
+vars:
+  wsUrl: ws://localhost:8080/ws/chat
+
+scenarios:
+  chat:
+    rate: 50
+    duration: 10s
+    flow:
+      - ws:
+          name: chat
+          url: "{{ wsUrl }}"
+          actions:
+            - sendJson: { type: join, room: "room-{{ randInt(1, 5) }}" }
+            - expect: { name: joined, json: { "$.type": joined }, timeout: 2s, extract: { room: $.room } }
+            - send: '{"type":"say","text":"hello from {{ vu }}"}'
+            - expect: { name: echo, contains: hello, timeout: 2s }
+            - close: true
+
+thresholds:
+  "latency{step:chat:joined}": ["p95 < 20ms"]
+  errors: ["rate < 1%"]

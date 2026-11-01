@@ -1,0 +1,39 @@
+# Redis: commands and pipelines over one connection per virtual user.
+#
+#   docker compose -f deploy/targets/docker-compose.yml up -d redis
+#   lt run examples/protocols/redis.yaml
+name: redis
+
+vars:
+  redisUrl: redis://:lt@localhost:16379/0     # rediss:// for TLS
+
+scenarios:
+  sessions:
+    rate: 200
+    duration: 10s
+    flow:
+      - redis:
+          name: create session
+          url: "{{ redisUrl }}"
+          command: [SET, "lt:session:{{ vu }}", "{{ uuid() }}", EX, 60]
+          check: { reply: OK }
+      - redis:
+          name: read session
+          url: "{{ redisUrl }}"
+          command: [GET, "lt:session:{{ vu }}"]
+          check: { exists: true }
+          extract: { sid: reply }
+      # A pipeline sends all commands at once and reads the replies in order.
+      - redis:
+          name: hit counter
+          url: "{{ redisUrl }}"
+          commands:
+            - [INCR, "lt:hits:{{ vu }}"]
+            - [EXPIRE, "lt:hits:{{ vu }}", 60]
+            - [GET, "lt:session:{{ vu }}"]
+          check: { reply: "{{ sid }}", maxLatency: 50ms }
+          extract: { hits: replies.0 }
+
+thresholds:
+  "latency{step:read session}": ["p95 < 10ms"]
+  errors: ["rate < 1%"]

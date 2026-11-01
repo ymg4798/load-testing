@@ -1,0 +1,20 @@
+# gRPC unary calls. Types come from the server's reflection service;
+# use `proto: path/to/file.proto` instead when reflection is off.
+name: grpc
+
+scenarios:
+  health:
+    rate: 500
+    duration: 10s
+    flow:
+      - grpc:
+          name: check
+          target: localhost:50051
+          method: grpc.health.v1.Health/Check
+          reflect: true
+          message: { service: "" }
+          check: { code: OK, json: { "$.status": SERVING } }
+
+thresholds:
+  latency: ["p99 < 20ms"]
+  errors: ["rate < 0.1%"]

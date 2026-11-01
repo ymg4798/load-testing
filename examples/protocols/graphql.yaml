@@ -1,0 +1,41 @@
+# GraphQL: queries and mutations as JSON POSTs. A response with a non-empty
+# "errors" array fails the step (graphql:error) unless check.allowErrors.
+#
+# This targets your own endpoint: set gqlUrl (and the operations below) to
+# match your schema, e.g.
+#   lt run examples/protocols/graphql.yaml -e gqlUrl=http://localhost:4000/graphql
+# The bundled testserver has no GraphQL endpoint.
+name: graphql
+
+vars:
+  gqlUrl: http://localhost:4000/graphql     # your endpoint
+  token: dev-token
+
+scenarios:
+  api:
+    rate: 20
+    duration: 10s
+    flow:
+      - graphql:
+          url: "{{ gqlUrl }}"
+          operationName: CreateUser
+          query: |
+            mutation CreateUser($name: String!) {
+              createUser(name: $name) { id name }
+            }
+          variables: { name: "user-{{ vu }}-{{ iter }}" }
+          headers: { Authorization: "Bearer {{ token }}" }
+          extract: { userId: $.data.createUser.id }
+      - graphql:
+          name: get user
+          url: "{{ gqlUrl }}"
+          query: |
+            query User($id: ID!) { user(id: $id) { id name } }
+          variables: { id: "{{ userId }}" }
+          headers: { Authorization: "Bearer {{ token }}" }
+          check:
+            json: { "$.data.user.id": "{{ userId }}" }
+            maxLatency: 300ms
+
+thresholds:
+  errors: ["rate < 1%"]

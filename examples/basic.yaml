@@ -1,0 +1,18 @@
+# The smallest useful test: a fixed request rate against one URL.
+#   bin/testserver &
+#   bin/lt run examples/basic.yaml
+name: basic
+
+vars:
+  baseUrl: http://localhost:8080
+
+scenarios:
+  hello:
+    rate: 200            # requests per second
+    duration: 10s
+    flow:
+      - http: "{{ baseUrl }}/jitter?min=2&max=20"
+
+thresholds:
+  latency: ["p95 < 50ms"]
+  errors: ["rate < 1%"]

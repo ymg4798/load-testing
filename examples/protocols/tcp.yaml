@@ -1,0 +1,51 @@
+# TCP: raw request/response over a socket (optionally TLS). Each step
+# records "<name>:connect" (TCP + TLS handshake) and "<name>" (send to the
+# end of the reply). \r \n \t \xHH escapes work in any quoting.
+#
+#   docker compose -f deploy/targets/docker-compose.yml up -d redis
+#   bin/testserver &
+#   lt run examples/protocols/tcp.yaml
+name: tcp
+
+vars:
+  redisAddr: localhost:16379
+  httpAddr: localhost:8080
+
+scenarios:
+  # Speak the Redis protocol by hand on a kept connection.
+  resp:
+    rate: 100
+    duration: 10s
+    flow:
+      - tcp:
+          name: auth
+          addr: "{{ redisAddr }}"
+          keep: true
+          conn: redis               # steps with the same conn share the socket
+          send: 'AUTH lt\r\n'
+          readUntil: '\r\n'
+          expect: "+OK"
+      - tcp:
+          name: ping
+          addr: "{{ redisAddr }}"
+          keep: true
+          conn: redis
+          send: 'PING\r\n'
+          readUntil: '\r\n'
+          expect: "/^\\+PONG/"
+
+  # A hand-written HTTP/1.1 request, new connection each time.
+  http:
+    rate: 50
+    duration: 10s
+    flow:
+      - tcp:
+          name: raw http
+          addr: "{{ httpAddr }}"
+          send: 'GET /fast HTTP/1.1\r\nHost: {{ httpAddr }}\r\nConnection: close\r\n\r\n'
+          expect: "/^HTTP/1.1 200/"
+          extract: { status: 'regex:HTTP/1.1 (\d+)' }
+
+thresholds:
+  "latency{step:ping}": ["p95 < 10ms"]
+  errors: ["rate < 1%"]

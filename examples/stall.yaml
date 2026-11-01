@@ -1,0 +1,22 @@
+# Checks the coordinated-omission correction. While this runs, stall the
+# server once:  curl -X POST 'localhost:8080/admin/stall?ms=1000'
+# Requests that were due during the stall must show up in p99 as up to ~1s,
+# not vanish. Compare with the closed-model scenario, which hides it.
+name: stall-check
+
+vars:
+  baseUrl: http://localhost:8080
+
+scenarios:
+  open:
+    rate: 500
+    duration: 15s
+    flow:
+      - http: { name: open, url: "{{ baseUrl }}/fast" }
+  closed:
+    executor: constant-users
+    users: 5
+    duration: 15s
+    flow:
+      - http: { name: closed, url: "{{ baseUrl }}/fast" }
+      - sleep: 10ms

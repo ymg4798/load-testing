@@ -1,0 +1,33 @@
+# Find the breaking point: raise the rate until a limit fails, then stop.
+# The server's own CPU and memory are collected next to the load, and every
+# request carries a trace ID so the slowest ones can be looked up.
+#   bin/testserver &
+#   bin/lt run examples/breakpoint.yaml --html breakpoint.html
+name: breakpoint
+
+vars:
+  baseUrl: http://localhost:8080
+
+options:
+  tracing:
+    propagator: w3c
+    url: "http://localhost:16686/trace/{traceId}"   # Jaeger UI; any tracing backend works
+
+monitor:
+  - url: "{{ baseUrl }}/metrics"
+    metrics:
+      - process_cpu_seconds_total
+      - go_memstats_heap_inuse_bytes
+      - go_goroutines
+      - testserver_in_flight
+
+scenarios:
+  ramp:
+    stages:
+      - { duration: 2m, target: 3000 }
+    flow:
+      - http: { name: work, url: "{{ baseUrl }}/work?ms=2" }
+
+limits:
+  latency: ["p95 < 200ms"]
+  errors: ["rate < 5%"]

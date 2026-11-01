@@ -1,0 +1,12 @@
+/bin/
+/dist/
+*.result.json
+result*.json
+report*.html
+.DS_Store
+.lt/
+/testserver
+/lt
+design-*
+.claude/settings.local.json
+.claude/agent-memory-local/
