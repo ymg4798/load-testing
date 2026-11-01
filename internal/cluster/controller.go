@@ -223,6 +223,7 @@ func (c *Controller) Run(ctx context.Context, f *scenario.File, vars map[string]
 	go func() {
 		defer close(merged)
 		pending := map[int][]*metrics.Snapshot{}
+		reported := map[int]int{} // agents that reported each second (late folds not counted)
 		active := n
 		next, maxT := 1, 0
 		flush := func(all bool) {
@@ -237,14 +238,16 @@ func (c *Controller) Run(ctx context.Context, f *scenario.File, vars map[string]
 				}
 				// Emit when every live agent reported this second, or when
 				// one is lagging by more than 3 seconds.
-				if !all && len(group) < active && maxT < next+3 {
+				if !all && reported[next] < active && maxT < next+3 {
 					return
 				}
 				m, err := metrics.Merge(group)
 				if err == nil {
+					m.T = next
 					merged <- m
 				}
 				delete(pending, next)
+				delete(reported, next)
 				next++
 			}
 		}
@@ -263,7 +266,18 @@ func (c *Controller) Run(ctx context.Context, f *scenario.File, vars map[string]
 				active--
 			case m.msg.Snap != nil:
 				s := m.msg.Snap
+				if s.T < next {
+					// Its second already went out without this agent (it lagged
+					// more than 3s). Count it with the next second instead of
+					// losing it: totals stay exact, timing shifts a little.
+					pending[next] = append(pending[next], s)
+					if next > maxT {
+						maxT = next
+					}
+					break
+				}
 				pending[s.T] = append(pending[s.T], s)
+				reported[s.T]++
 				if s.T > maxT {
 					maxT = s.T
 				}

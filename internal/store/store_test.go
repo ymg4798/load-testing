@@ -360,7 +360,9 @@ func TestConcurrent(t *testing.T) {
 				after := done.Load()
 				// Both paths are exact: unflushed seconds and the current
 				// minute come from memory under the same lock as file sizes.
-				if int64(got) < before || int64(got) > after {
+				// The writer bumps done just after Append returns, so a reader
+				// may already see one more second than done says.
+				if int64(got) < before || int64(got) > after+1 {
 					errs <- fmt.Errorf("reader %d saw %d seconds, appended %d..%d", r, got, before, after)
 					return
 				}
